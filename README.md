@@ -1,6 +1,6 @@
 # Custom 4-Bit Single-Cycle Processor (Verilog RTL)
 
-A minimalist, single-cycle 4-bit CPU designed from the ground up in Verilog. This processor features a Harvard architecture with an 8-bit instruction word, dedicated Data RAM and Instruction ROM domains, a centralized Control Unit, and a custom 6-instruction ISA.
+A minimal, single cycle 4-bit CPU designed from the scratch in Verilog. This processor features a 8-bit instruction word, dedicated Data RAM and Instruction ROM domains, a centralized Control Unit, and a custom 6-instruction ISA.
 
 ---
 
@@ -26,7 +26,7 @@ The architecture uses an **8-bit fixed instruction format**:
 * **Bits [7:4]:** 4-bit Opcode
 * **Bits [3:0]:** 4-bit Memory Address Operand
 
-| Opcode (Hex) | Binary | Mnemonic | Format | Operation Description |
+| Opcode | Binary | Mnemonic | Format | Operation Description |
 | :--- | :--- | :--- | :--- | :--- |
 | `0x0` | `0000` | **LOAD** | `LOAD [addr]` | `ACC <= RAM[addr]` |
 | `0x1` | `0001` | **STORE** | `STORE [addr]` | `RAM[addr] <= ACC` |
@@ -62,9 +62,3 @@ The testbench validates the full instruction set through an embedded diagnostic 
 ### Prerequisites
 * [Icarus Verilog (`iverilog`)](http://iverilog.icarus.com/)
 * [GTKWave](http://gtkwave.sourceforge.net/)
-
-### Running Simulation
-
-1. **Compile the design and testbench:**
-   ```bash
-   iverilog -o cpu_sim *.v
