@@ -57,8 +57,6 @@ The testbench validates the full instruction set through an embedded diagnostic 
 
 ---
 
-## Simulation & Build Instructions
-
 ### Prerequisites
 * [Icarus Verilog (`iverilog`)](http://iverilog.icarus.com/)
 * [GTKWave](http://gtkwave.sourceforge.net/)
