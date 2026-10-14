@@ -1,6 +1,6 @@
 # Custom 4-Bit Single-Cycle Processor (Verilog RTL)
 
-A minimal, single cycle 4-bit CPU designed from the scratch in Verilog. This processor features a 8-bit instruction word, dedicated Data RAM and Instruction ROM domains, a centralized Control Unit, and a custom 6-instruction ISA.
+A minimal single-cycle 4-bit accumulator CPU in Verilog. This processor features a 8-bit instruction word, dedicated Data RAM and Instruction ROM domains, a centralized Control Unit, and a custom 6-instruction ISA.
 
 ---
 
@@ -39,8 +39,8 @@ The architecture uses an **8-bit fixed instruction format**:
 
 ## Key Timing & Architectural Design Choices
 
-* **Hazard Elimination via Asynchronous Reads:** The Data RAM read datapath is combinational (`assign data_out = ram[addr]`). This ensures operands are immediately available to the ALU within the same cycle the instruction is fetched, eliminating stale-data hazards without requiring multi-cycle stalls or forwarding networks.
-* **Synchronous Updates:** All state elements (Program Counter, Accumulator, and RAM write buffers) update synchronously on the positive clock edge (`posedge clk`), maintaining clear timing boundaries.
+* **Hazard Elimination** Single-cycle, so no pipeline hazards by construction. RAM reads are combinational, so the operand reaches the ALU in the same cycle.
+* **Synchronous Updates:** All state elements (Program Counter, Accumulator, and RAM writes) update synchronously on the positive clock edge (`posedge clk`), maintaining clear timing boundaries.
 
 ---
 
@@ -57,6 +57,17 @@ The testbench validates the full instruction set through an embedded diagnostic 
 
 ---
 
+##Limitations
+
+* No branch/jump or flags; no HALT (unused ROM is LOAD 0, PC wraps at 16)
+* 4-bit arithmetic wraps silently
+  
 ### Prerequisites
 * [Icarus Verilog (`iverilog`)](http://iverilog.icarus.com/)
 * [GTKWave](http://gtkwave.sourceforge.net/)
+
+## Run
+
+iverilog -o cpu_sim tb_cpu.v cpu_top.v pc.v rom.v ram.v alu.v control_unit.v
+vvp cpu_sim
+gtkwave waveform.vcd
