@@ -9,7 +9,6 @@ module tb_cpu;
     wire [3:0] ACC_Out;
     wire Mem_Write_Out;
 
-    // UPDATED INSTANTIATION HERE:
     cpu_top DUT(
         .clk(clk), 
         .rst(rst), 
@@ -36,8 +35,15 @@ module tb_cpu;
     end
 
     initial begin
-        $monitor("Time %0d PC %0d Opcode %0d RAM_Address %0d RAM_Data_Out %0d ACC %0d Mem_Write %0d", 
-                 $time, PC_Out, Opcode_Out, RAM_Addr_Out, RAM_Data_Out, ACC_Out, Mem_Write_Out);
+        $monitor("Time %0d PC %0d Opcode %0d RAM_Address %0d RAM_Data_Out %0d ACC %0d Mem_Write %0d", $time, PC_Out, Opcode_Out, RAM_Addr_Out, RAM_Data_Out, ACC_Out, Mem_Write_Out);
+    end
+
+    initial begin
+        #90;
+        if (ACC_Out === 4'd3 && DUT.RAM_inst.ram[3] === 4'd3)
+            $display("PASS: STORE wrote RAM[3]=3 and LOAD 3 read it back");
+        else
+            $display("FAIL: ACC=%0d RAM[3]=%0d", ACC_Out, DUT.RAM_inst.ram[3]);
     end
 
     initial begin
